@@ -11,6 +11,7 @@ public:
 
 private:
 	void backtrack(int x, int y);
+	void removeDeadEnds(); // 行き止まりを排除する関数
 
 	int width;
 	int height;
