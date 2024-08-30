@@ -16,6 +16,8 @@ void MazeGenerator::generate()
 	backtrack(1, 1);
 	// 行き止まりを排除
 	removeDeadEnds();
+	// 周囲を壁で囲む
+	surroundWithWalls();
 }
 
 void MazeGenerator::backtrack(int x, int y)
@@ -81,16 +83,66 @@ void MazeGenerator::removeDeadEnds()
 	}
 }
 
+void MazeGenerator::surroundWithWalls()
+{
+	for (int y = 0; y < height; ++y)
+	{
+		maze[y][0] = true;
+		maze[y][width - 1] = true;
+	}
+
+	for (int x = 0; x < width; ++x)
+	{
+		maze[0][x] = true;
+		maze[height - 1][x] = true;
+	}
+}
+
 void MazeGenerator::draw() const
 {
 	for (int y = 0; y < height; ++y)
 	{
 		for (int x = 0; x < width; ++x)
 		{
-			if (maze[y][x]) // 壁のセルは黒で描画
+			if (maze[y][x]) // 壁のセルは黄色で描画
 			{
 				Rect(x * 20, y * 20, 20, 20).draw(Palette::Yellow);
 			}
 		}
 	}
+}
+
+bool MazeGenerator::isWall(int x, int y) const
+{
+	if (x < 0 || x >= width || y < 0 || y >= height)
+	{
+		return true; // 迷路の外はすべて壁とみなす
+	}
+	return maze[y][x];
+}
+
+int MazeGenerator::getWidth() const
+{
+	return width;
+}
+
+int MazeGenerator::getHeight() const
+{
+	return height;
+}
+
+Array<RectF> MazeGenerator::GetWallColliders() const
+{
+	Array<RectF> colliders;
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
+			if (maze[y][x])
+			{
+				colliders.push_back(RectF(x * 20, y * 20, 20, 20));
+			}
+		}
+	}
+	return colliders;
 }

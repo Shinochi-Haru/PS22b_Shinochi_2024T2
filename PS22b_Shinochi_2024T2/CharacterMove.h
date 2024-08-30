@@ -3,6 +3,7 @@
 class CharacterMove
 {
 private:
+	Circle collider; // キャラクターのコライダー
 	int x, y;
 public:
 	//コンストラクタ
@@ -16,5 +17,11 @@ public:
 
 	// キャラクターの位置を取得する関数
 	Vec2 GetPosition() const;
+
+	// キャラクターの位置を設定する関数
+	void SetPosition(int newX, int newY);
+
+	// キャラクターのコライダーを取得する関数
+	Circle GetCollider() const;
 };
 

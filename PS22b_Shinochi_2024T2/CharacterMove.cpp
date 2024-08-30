@@ -2,6 +2,7 @@
 #include "CharacterMove.h"
 
 CharacterMove::CharacterMove(int initialX, int initialY)
+	: collider(initialX, initialY, 7) // コライダーの初期化
 {
 	x = initialX;
 	y = initialY;
@@ -9,25 +10,37 @@ CharacterMove::CharacterMove(int initialX, int initialY)
 
 void CharacterMove::MoveUp()
 {
-	y += -1;
+	collider.y -= 1;
 }
 
 void CharacterMove::MoveLeft()
 {
-	x += -1;
+	collider.x -= 1;
 }
 
 void CharacterMove::MoveRight()
 {
-	x += 1;
+	collider.x += 1;
 }
 
 void CharacterMove::MoveDown()
 {
-	y += 1;
+	collider.y += 1;
 }
 
 Vec2 CharacterMove::GetPosition() const
 {
-	return Vec2(x, y);
+	return collider.center;
 }
+
+void CharacterMove::SetPosition(int newX, int newY)
+{
+	collider.setPos(newX, newY);
+}
+
+Circle CharacterMove::GetCollider() const
+{
+	return collider;
+}
+
+
